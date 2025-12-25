@@ -1,14 +1,24 @@
 using UnityEngine;
+using TMPro;
 
 public class MenuScript : MonoBehaviour
 {
-    public void OpenMenuLevels()
-    {
 
+    public GameObject PanelWithStartButton;
+    public GameObject PanelWithLevels;
+    public GameObject PanelWithSettings;
+
+   
+
+    public void OpenPanelWithLevels()
+    {
+        PanelWithStartButton.SetActive(false);
+        PanelWithLevels.SetActive(true);
     }
-    public void OpenMenuSettings() 
+    public void OpenPanelWithSettings() 
     {
-
+        PanelWithStartButton.SetActive(false);
+        PanelWithSettings.SetActive(true);
     }
 
     public void CloseGame() 
@@ -16,5 +26,6 @@ public class MenuScript : MonoBehaviour
         Debug.Log("yes");
         Application.Quit();
     }
+
     
 }
