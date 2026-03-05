@@ -13,17 +13,14 @@ public class PlayerController : MonoBehaviour
 
     private float movementX;
     private float movementY;
-
     public float jumpForce;
-
-    private float jumpForce = 7f;
-
 
     public float speed;
     private float rotationSpeed = 10f;
 
 
     private bool CheckContactGround = true;
+
 
 
 
@@ -42,11 +39,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-
-
-
-
         Vector3 CameraForward = Camera.transform.forward; 
         Vector3 CameraRight = Camera.transform.right;  
 
@@ -74,7 +66,6 @@ public class PlayerController : MonoBehaviour
             CheckContactGround = false;
         }
 
-
         float mouseX = Input.GetAxis("Mouse X") * sensitivy;
 
         transform.Rotate(new Vector3(0, Camera.transform.eulerAngles.y * Time.deltaTime, 0));
@@ -90,23 +81,6 @@ public class PlayerController : MonoBehaviour
             //Quaternion targetRotation = Quaternion.Euler(0, CameraYaw, 0);
             //transform.rotation = Quaternion.Slerp(transform.rotation,targetRotation,rotationSpeed * Time.deltaTime);
 
-
-
-
-        if (movementX != 0 || movementY != 0) 
-        {
-            Vector3 PlayerRotation = transform.localEulerAngles;
-            //float CameraRotationY = FreeLookCamera.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value;
-            //Debug.Log(CameraRotationY);
-
-            //transform.rotation = Quaternion.Euler(0, CameraRotationY, 0); 
-
-            //transform.localEulerAngles = PlayerRotation;
-
-
-            PlayerRotation.y = Camera.transform.rotation.y;
-
-            transform.rotation = Quaternion.Lerp(transform.rotation, PlayerRotation,Time.deltaTime);
 
         }
         
