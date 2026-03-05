@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Cursor.visible = false;
     }
 
     private void OnMove(InputValue movementValue)
@@ -118,14 +119,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             CheckContactGround = true;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("FailTag")) 
-        {
-            transform.position = new Vector3(0, 2.276f, -25.00607f);
         }
     }
 }
