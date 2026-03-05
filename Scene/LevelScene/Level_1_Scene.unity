@@ -2652,12 +2652,12 @@ GameObject:
   - component: {fileID: 978507352}
   - component: {fileID: 978507358}
   m_Layer: 0
-  m_Name: FreeLook Camera
+  m_Name: CameraThirdView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &978507352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3319,9 +3319,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.45
+  far clip plane: 1058.8
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3347,8 +3347,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021462170}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.011528085, y: 0.0005325528, z: -0.000006139722, w: 0.9999334}
-  m_LocalPosition: {x: 0, y: 4.5889997, z: -27.006073}
+  m_LocalRotation: {x: 0.15212339, y: 0.000000008905201, z: -0.0000000013706417, w: 0.98836154}
+  m_LocalPosition: {x: 0, y: 4.0321765, z: -25.205503}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3672,12 +3672,12 @@ GameObject:
   - component: {fileID: 1115521281}
   - component: {fileID: 1115521280}
   m_Layer: 0
-  m_Name: FreeLook Camera (1)
+  m_Name: CameraFirstView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1115521280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5557,10 +5557,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   Camera: {fileID: 1021462170}
-  FreeLookCamera: {fileID: 978507351}
   jumpForce: 7
   speed: 4
   sensitivy: 5
+  CameraThirdView: {fileID: 978507351}
+  CameraFirstView: {fileID: 1115521279}
 --- !u!114 &1687863646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6443,7 +6444,7 @@ SceneRoots:
   - {fileID: 491917336}
   - {fileID: 1660143625}
   - {fileID: 978507357}
+  - {fileID: 1115521285}
   - {fileID: 1392794744}
   - {fileID: 898697821}
-  - {fileID: 1115521285}
   - {fileID: 1151001200}

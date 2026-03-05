@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,20 +10,23 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public GameObject Camera;
-    public GameObject FreeLookCamera;
+
 
     private float movementX;
     private float movementY;
-    public float jumpForce;
 
+    [Header("Характеристики игрока")]
+    public float jumpForce;
     public float speed;
-    private float rotationSpeed = 10f;
+    public float sensitivy;
 
 
     private bool CheckContactGround = true;
 
-
-
+    private bool CheckViewTarget = true;// True - Вид от третьего лица / False - Вид от первого лица
+    [Header("Настройки для камеры")]
+    public GameObject CameraThirdView;
+    public GameObject CameraFirstView;
 
     private void Start()
     {
@@ -52,11 +56,9 @@ public class PlayerController : MonoBehaviour
         movement *= speed;
         movement.y = rb.linearVelocity.y;
         rb.linearVelocity = movement;
-
-
     }
 
-    public float sensitivy;
+    
 
     private void Update()
     {
@@ -66,25 +68,49 @@ public class PlayerController : MonoBehaviour
             CheckContactGround = false;
         }
 
-        float mouseX = Input.GetAxis("Mouse X") * sensitivy;
-
-        transform.Rotate(new Vector3(0, Camera.transform.eulerAngles.y * Time.deltaTime, 0));
-        //Camera.transform.Rotate(new Vector3(0, mouseX, 0));
-        //FreeLookCamera.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value = mouseX;
-
-        //Debug.Log($"Данные с окружности {FreeLookCamera.GetComponent<CinemachineOrbitalFollow>().HorizontalAxis.Value}" +
-        //$"Данные с Камеры {Camera.transform.eulerAngles.y} Данные с игрока {transform.eulerAngles.y}");
-
-        if (movementX != 0 || movementY != 0) 
+        if (Input.GetKeyDown(KeyCode.V)) 
         {
-            //float CameraYaw = Camera.transform.eulerAngles.y;
-            //Quaternion targetRotation = Quaternion.Euler(0, CameraYaw, 0);
-            //transform.rotation = Quaternion.Slerp(transform.rotation,targetRotation,rotationSpeed * Time.deltaTime);
-
-
+            if (CheckViewTarget) 
+            {
+                CameraFirstView.SetActive(true);
+                CameraThirdView.SetActive(false);
+                CheckViewTarget = false;
+            }
+            else
+            {
+                CameraFirstView.SetActive(false);
+                CameraThirdView.SetActive(true);
+                CheckViewTarget = true;
+            }
         }
-        
 
+
+
+        if (CheckViewTarget)
+        {
+            if (movementX != 0 || movementY != 0)
+            {
+                PlayerRotation();
+            }
+        }
+        else
+        {
+            PlayerRotation();
+        }
+    }
+
+    public void PlayerRotation() 
+    {
+        Quaternion playerRotation = transform.rotation;
+        Quaternion cameraRotation = Camera.transform.rotation;
+
+        playerRotation.x = 0f;
+        playerRotation.z = 0f;
+
+        cameraRotation.x = 0f;
+        cameraRotation.z = 0f;
+
+        transform.rotation = Quaternion.Lerp(playerRotation, cameraRotation, Time.deltaTime * sensitivy);
     }
 
     private void OnCollisionEnter(Collision collision)
