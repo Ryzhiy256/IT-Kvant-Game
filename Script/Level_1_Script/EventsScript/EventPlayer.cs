@@ -1,9 +1,11 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class EventPlayer : MonoBehaviour
 {
     public TextMeshProUGUI CountCoinText;
+    public GameObject Teleport;
 
     void Update()
     {
@@ -19,13 +21,18 @@ public class EventPlayer : MonoBehaviour
 
             if (int.Parse(CountCoinText.text) >= 20) 
             {
-                //Тут должен быть скрипт появления перехода на новый уровень    
+                   Teleport.SetActive(true);
             }
         }
 
         if (other.gameObject.CompareTag("FailTag"))
         {
             transform.position = new Vector3(0, 2.276f, -25.00607f);
+        }
+
+        if (other.gameObject.CompareTag("TeleportTag")) 
+        {
+            SceneManager.LoadScene("Level_2_Scene");
         }
     }
 

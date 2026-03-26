@@ -105,11 +105,12 @@ public class PlayerController : MonoBehaviour
         Quaternion playerRotation = transform.rotation;
         Quaternion cameraRotation = Camera.transform.rotation;
 
-        playerRotation.x = 0f;
-        playerRotation.z = 0f;
+        //playerRotation.x = 0f;
+        //playerRotation.z = 0f;
 
-        cameraRotation.x = 0f;
-        cameraRotation.z = 0f;
+        cameraRotation.x = playerRotation.x;
+        cameraRotation.z = playerRotation.z;
+
 
         transform.rotation = Quaternion.Lerp(playerRotation, cameraRotation, Time.deltaTime * sensitivy);
     }
