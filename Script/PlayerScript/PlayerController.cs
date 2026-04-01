@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public GameObject Camera;
+    private Animator animator;
 
 
     private float movementX;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Cursor.visible = false;
+        animator = GetComponent<Animator>();
     }
 
     private void OnMove(InputValue movementValue)
@@ -63,12 +65,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        //Участок кода для прыжка
         if (Input.GetKeyDown(KeyCode.Space) && CheckContactGround)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             CheckContactGround = false;
         }
 
+        //Участок кода для прыжка
         if (Input.GetKeyDown(KeyCode.V)) 
         {
             if (CheckViewTarget) 
@@ -86,7 +91,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
+        //Участок кода для работы повората камеры, при разных камерах
         if (CheckViewTarget)
         {
             if (movementX != 0 || movementY != 0)
@@ -98,6 +103,15 @@ public class PlayerController : MonoBehaviour
         {
             PlayerRotation();
         }
+
+
+        //Участок кода для работы анимаций
+        animator.SetFloat("moveX", movementX);
+        animator.SetFloat("moveY", movementY);
+
+        if (CheckContactGround) { animator.SetBool("jump", false); animator.SetBool("falling", false); }
+        else { animator.SetBool("jump", true); animator.SetBool("falling", true); }
+
     }
 
     public void PlayerRotation() 
@@ -120,6 +134,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             CheckContactGround = true;
+            
         }
     }
 }
