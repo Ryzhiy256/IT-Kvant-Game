@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
             CheckContactGround = false;
         }
 
-        //Участок кода для прыжка
+        //Участок кода для смены лица
         if (Input.GetKeyDown(KeyCode.V)) 
         {
             if (CheckViewTarget) 
