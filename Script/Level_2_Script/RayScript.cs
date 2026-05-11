@@ -19,6 +19,7 @@ public class RayScript : MonoBehaviour
         RaycastHit hit;
         GameObject touchObject;
 
+
         if (Physics.Raycast(ray, out hit)) 
         {
             touchObject = hit.collider.gameObject;
@@ -28,11 +29,14 @@ public class RayScript : MonoBehaviour
             }
             else { Clue.SetActive(false); }
 
-            if (hit.collider.gameObject.tag == "TouchTag" && Input.GetKeyDown(KeyCode.E)) 
+            if (hit.collider.gameObject.tag == "TouchTag" && Input.GetKey(KeyCode.E)) 
             {
-                Ray test = Camera.main.ScreenPointToRay(Input.mousePosition);
-                var p = test.origin + test.direction * 10f;
-                touchObject.transform.position = p;
+                
+
+
+                //Ray test = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //var p = test.origin + test.direction * 10f;
+                //touchObject.transform.position = p;
 
 
                 //Vector3 touchObjectPositionWihtMouse = new Vector3(touchObject.transform.position.x + Input.GetAxis("Mouse X"),
