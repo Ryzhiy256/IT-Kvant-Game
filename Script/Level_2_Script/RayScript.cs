@@ -2,64 +2,83 @@ using UnityEngine;
 
 public class RayScript : MonoBehaviour
 {
-    public Camera MainCamera;
-    public GameObject Clue;
+    private string targetTag = "TouchTag";
+    private float dragDistance = 5f;
+    private float speed = 10f;
 
-    private bool CheckTouchObject = false;
+    private Rigidbody currentTarget;
+    private Camera cam;
 
+    public GameObject panelWithClue;
 
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
+        cam = Camera.main;
     }
-    // Update is called once per frame
+
     void Update()
     {
-        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-        GameObject touchObject;
 
 
-        if (Physics.Raycast(ray, out hit)) 
+        //Для появления и исчезновения подсказки
+        if (Physics.Raycast(ray, out hit))
         {
-            touchObject = hit.collider.gameObject;
-            if (hit.collider.gameObject.tag == "TouchTag") 
+            if (hit.transform.CompareTag(targetTag))
             {
-                Clue.SetActive(true);
+                panelWithClue.SetActive(true);
             }
-            else { Clue.SetActive(false); }
-
-            if (hit.collider.gameObject.tag == "TouchTag" && Input.GetKey(KeyCode.E)) 
+            else
             {
-                
-
-
-                //Ray test = Camera.main.ScreenPointToRay(Input.mousePosition);
-                //var p = test.origin + test.direction * 10f;
-                //touchObject.transform.position = p;
-
-
-                //Vector3 touchObjectPositionWihtMouse = new Vector3(touchObject.transform.position.x + Input.GetAxis("Mouse X"),
-                //        touchObject.transform.position.y + Input.GetAxis("Mouse Y"),
-                //        transform.position.z + Mathf.Abs(Mathf.Abs(touchObject.transform.position.z) - Mathf.Abs(transform.position.z)));
-                ////Vector3 positionMouse = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), Mathf.Abs(Mathf.Abs(touchObject.transform.position.z) - Mathf.Abs(transform.position.z)));
-                //touchObject.transform.position = Vector3.Lerp(touchObject.transform.position, touchObjectPositionWihtMouse, Time.deltaTime);
-                if (transform.forward.z > 0f) 
-                {
-                    
-                }
-                else if (transform.forward.x > 0f) 
-                {
-
-                }
-                //Vector3 positionMouse = new Vector3(0, Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
-                //touchObject.transform.position = Vector3.Lerp(touchObject.transform.position, positionMouse, Time.deltaTime);
-                //touchObject.transform.position += new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0);
-                //Debug.Log("Yes");
+                panelWithClue.SetActive(false);
             }
-            string objectTag = hit.collider.gameObject.tag;
-            Debug.Log(objectTag);
         }
-        if (Input.GetKeyDown(KeyCode.Escape)) { CheckTouchObject = false; }
+
+        //Захват необходимого объект и отключение его физики
+        if (Input.GetKeyDown(KeyCode.E)) 
+        {
+            if (Physics.Raycast(ray, out hit)) 
+            {
+                if (hit.transform.CompareTag(targetTag))
+                {
+                    currentTarget = hit.collider.GetComponent<Rigidbody>();
+                    panelWithClue.SetActive(true);
+
+                    currentTarget.useGravity = false;
+                    currentTarget.linearVelocity = Vector3.zero;
+                    currentTarget.angularVelocity = Vector3.zero;
+                }
+                else 
+                {
+                    panelWithClue.SetActive(false);
+                }
+            }
+        }
+
+        
+
+        if (Input.GetKeyUp(KeyCode.E)) 
+        {
+            currentTarget.useGravity = true;   
+            currentTarget = null;
+
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentTarget != null)
+        {
+            Vector3 targetPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, dragDistance));
+
+            Vector3 direction = targetPosition - currentTarget.position;
+
+            currentTarget.linearVelocity = direction * speed;
+
+
+        }
     }
 }
